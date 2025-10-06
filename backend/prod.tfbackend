@@ -1,2 +1,3 @@
-# needs to hardcoded and bucket needs to be created manually before
 bucket = "terraform-s3-state-6392838385"
+key = "terraform.tfstate"
+region = "eu-central-1"
