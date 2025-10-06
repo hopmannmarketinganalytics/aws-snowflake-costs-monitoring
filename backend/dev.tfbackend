@@ -1,0 +1,2 @@
+# needs to hardcoded and bucket needs to be created manually before
+bucket = "terraform-s3-state-4637483747"
