@@ -20,7 +20,7 @@ def lambda_handler(event, context):
     param_name = os.environ["SSM_PARAM_NAME"]
     environment = os.environ["ENVIRONMENT"]
 
-    # Fetch JSON credentials from Parameter Store
+    # Fetch JSON credentials from AWS Parameter Store
     response = ssm.get_parameter(Name=param_name, WithDecryption=True)
     creds = json.loads(response["Parameter"]["Value"])
     private_key = serialization.load_pem_private_key(
