@@ -1,0 +1,1 @@
+## The repository contains the code for setting up an automated pipeline using Terraform to continuously monitor AWS and Snowflake costs and send email notifications when expenses exceed a defined budget.
