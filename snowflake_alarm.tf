@@ -3,17 +3,19 @@
 #-----------------------------------------------------------
 
 # ---------- SNS Topic for Alerts ----------
-resource "aws_sns_topic" "snowflake_alerts" {
+resource "aws_sns_topic" "snowflake_budget_alerts" {
+  # AWS SNS topic for Snowflake budget notifications
   name     = "snowflake-budget-alerts-${var.environment}"
 }
 
-resource "aws_sns_topic_subscription" "snowflake_alert_email" {
+resource "aws_sns_topic_subscription" "snowflake_budget_email" {
+  # Email subscriptions for Snowflake budget alerts
   for_each  = toset(var.budget_alert_emails)
-  topic_arn = aws_sns_topic.snowflake_alerts.arn
+  topic_arn = aws_sns_topic.snowflake_budget_alerts.arn
   protocol  = "email"
   endpoint  = each.value
 
-  depends_on = [aws_sns_topic.snowflake_alerts]
+  depends_on = [aws_sns_topic.snowflake_budget_alerts]
 }
 
 # ---------- IAM Role for Lambda ----------
@@ -43,7 +45,7 @@ resource "aws_iam_role_policy" "sns_publish" {
     Statement = [{
       Effect   = "Allow"
       Action   = "sns:Publish"
-      Resource = aws_sns_topic.snowflake_alerts.arn
+      Resource = aws_sns_topic.snowflake_budget_alerts.arn
     }]
   })
 }
@@ -74,7 +76,7 @@ resource "aws_lambda_function" "snowflake_cost_checker" {
 
   environment {
     variables = {
-      SNS_TOPIC_ARN  = aws_sns_topic.snowflake_alerts.arn
+      SNS_TOPIC_ARN  = aws_sns_topic.snowflake_budget_alerts.arn
       THRESHOLD_COST = local.snowflake_limit
       SSM_PARAM_NAME = "/snowflake_cost_alarm"
       ENVIRONMENT = var.environment

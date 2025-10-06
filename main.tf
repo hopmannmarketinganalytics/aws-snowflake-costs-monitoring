@@ -7,7 +7,7 @@ terraform {
 
   }
   backend "s3" {
-    bucket                  = "terraform-s3-state-4637483747"
+    bucket                  = "terraform-s3-state-4637483747" # needs to be hardcoded and created manually
     key                     = "terraform.tfstate"
     region                  = "eu-central-1"
   }

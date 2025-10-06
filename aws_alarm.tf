@@ -9,6 +9,7 @@ provider "aws" {
 # ---------- SNS Topic for Budget Alerts ----------
 
 resource "aws_sns_topic_subscription" "aws_budget_emails" {
+  # Email subscriptions for AWS budget alerts
   provider  = aws.us_east
   for_each  = toset(var.budget_alert_emails)
 
@@ -20,6 +21,7 @@ resource "aws_sns_topic_subscription" "aws_budget_emails" {
 }
 
 resource "aws_sns_topic" "aws_budget_alerts" {
+  # AWS SNS topic for AWS budget notifications
   provider = aws.us_east
   name     = "aws-budget-alerts-${var.environment}"
 
