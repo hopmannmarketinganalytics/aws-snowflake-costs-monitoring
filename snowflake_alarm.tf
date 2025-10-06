@@ -50,6 +50,9 @@ resource "aws_iam_role_policy" "sns_publish" {
   })
 }
 
+# Fetch the current AWS account ID dynamically
+data "aws_caller_identity" "current" {}
+
 resource "aws_iam_role_policy" "ssm_access" {
   name     = "ssm-parameter-access"
   role     = aws_iam_role.lambda_role.id
@@ -58,7 +61,7 @@ resource "aws_iam_role_policy" "ssm_access" {
     Statement = [{
       Effect   = "Allow"
       Action   = ["ssm:GetParameter"]
-      Resource = "arn:aws:ssm:*:${local.account_ids[var.environment]}:parameter/snowflake_cost_alarm"
+      Resource = "arn:aws:ssm:*:${data.aws_caller_identity.current.account_id}:parameter/snowflake_cost_alarm"
     }]
   })
 }
